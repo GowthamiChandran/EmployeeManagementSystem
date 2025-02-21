@@ -32,7 +32,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDto getEmployeeById(Long empId) {
         Employee employee=empRepo.findById(empId)
-                .orElseThrow(()-> new ResourceNotFound("Employee does Not exist with given id"+empId));
+                .orElseThrow(()-> new ResourceNotFound("Employee does Not exist "+empId));
         return EmployeeMapper.mapToEmployeeDto(employee);
     }
 
