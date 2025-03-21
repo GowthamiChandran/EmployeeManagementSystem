@@ -2,6 +2,7 @@ package com.practice.crud.service.Impl;
 
 import com.practice.crud.dto.EmployeeDto;
 import com.practice.crud.entity.Employee;
+import com.practice.crud.exception.EmployeeAllReadyExistsException;
 import com.practice.crud.exception.ResourceNotFound;
 import com.practice.crud.mapper.EmployeeMapper;
 import com.practice.crud.repository.EmpRepo;
@@ -25,6 +26,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDto createEmployee(EmployeeDto employeeDto) {
         Employee employee= EmployeeMapper.mapToEmployee(employeeDto);
+        if (empRepo.findByFirstNameAndEmailAddress(employee.getFirstName(), employee.getEmail()).isPresent()) {
+            throw new EmployeeAllReadyExistsException("Employee with name " + employeeDto.getFirstName() + " and email " + employeeDto.getEmail() + " already exists.");
+        }
         Employee savedEmployee=empRepo.save(employee);
         return EmployeeMapper.mapToEmployeeDto(savedEmployee);
     }
@@ -57,6 +61,5 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = empRepo.findById(empId).orElseThrow(()->new ResourceNotFound("Resource Not Found for this Id"+empId));
 
         empRepo.deleteById(empId);
-
     }
 }
