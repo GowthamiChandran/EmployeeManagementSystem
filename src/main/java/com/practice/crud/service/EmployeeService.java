@@ -15,4 +15,7 @@ public interface EmployeeService {
 
     void deleteEmployee(Long empId);
 
+    EmployeeDto createEmployeeWithSpecificId(EmployeeDto employeeDto,Long id);
+
+    EmployeeDto getEmpAddressById(Long id);
 }

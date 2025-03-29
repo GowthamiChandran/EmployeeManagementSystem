@@ -1,5 +1,6 @@
 package com.practice.crud.entity;
 
+import com.practice.crud.dto.AddressResponseDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,6 +19,8 @@ public class Employee {
     private String lastName;
     @Column(name = "email",nullable = false,unique = true)
     private String email;
+
+
 
     public Employee() {
     }
@@ -57,5 +60,6 @@ public class Employee {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+
     }
 }

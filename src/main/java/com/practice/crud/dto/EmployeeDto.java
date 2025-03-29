@@ -11,9 +11,18 @@ public class EmployeeDto {
     private long id;
     private String firstName;
 
-
     private String lastName;
     private String email;
+
+    public AddressResponseDto getAddressResponseDto() {
+        return addressResponseDto;
+    }
+
+    public void setAddressResponseDto(AddressResponseDto addressResponseDto) {
+        this.addressResponseDto = addressResponseDto;
+    }
+
+    private AddressResponseDto addressResponseDto;
 
     public long getId() {
         return id;

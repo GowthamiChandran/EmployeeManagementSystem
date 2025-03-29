@@ -27,6 +27,12 @@ public class EmployeeController {
         return new ResponseEntity<>(savedEmployeeDto, HttpStatus.CREATED);
     }
 
+    @PostMapping("/create/{id}")
+    public ResponseEntity<EmployeeDto> createEmployeeWithSpecificId(@RequestBody EmployeeDto employeeDto,@PathVariable("id") Long id){
+        EmployeeDto savedEmployeeDto=employeeService.createEmployeeWithSpecificId(employeeDto,id);
+        return new ResponseEntity<>(savedEmployeeDto,HttpStatus.CREATED);
+    }
+
     //Build Get REST API
     @GetMapping("/{id}")
     public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable("id") Long empId)  {
@@ -51,6 +57,13 @@ public class EmployeeController {
    public ResponseEntity<String> deleteEmployee(@PathVariable("id") Long empId){
         employeeService.deleteEmployee(empId);
         return ResponseEntity.ok("Employee got removed");
+    }
+
+    @GetMapping("/empaddress/{id}")
+    public ResponseEntity<EmployeeDto> getEmployeeAddressById(@PathVariable("id") Long id){
+
+        EmployeeDto employeeDto = employeeService.getEmpAddressById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(employeeDto);
     }
 
 }
