@@ -5,6 +5,7 @@ import com.practice.crud.dto.EmployeeDto;
 import com.practice.crud.entity.Employee;
 import com.practice.crud.exception.EmployeeAllReadyExistsException;
 import com.practice.crud.exception.ResourceNotFound;
+import com.practice.crud.feignclient.AddressClient;
 import com.practice.crud.mapper.EmployeeMapper;
 import com.practice.crud.repository.EmpRepo;
 import com.practice.crud.service.EmployeeService;
@@ -29,6 +30,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private AddressClient addressClient;
 
     public EmployeeServiceImpl(EmpRepo empRepo) {
         this.empRepo = empRepo;
@@ -92,7 +96,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Employee employee =empRepo.findById(id).get();
         EmployeeDto employeeDto = modelMapper.map(employee,EmployeeDto.class);
-        AddressResponseDto addressResponseDto =restTemplate.getForObject("http://localhost:9091/api/address/{id}",AddressResponseDto.class,id);
+        AddressResponseDto addressResponseDto = addressClient.getAddressByEmployeeId(id);
+               // restTemplate.getForObject("http://localhost:9091/api/address/{id}",AddressResponseDto.class,id);
         employeeDto.setAddressResponseDto(addressResponseDto);
         return employeeDto;
     }
