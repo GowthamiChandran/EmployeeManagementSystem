@@ -1,0 +1,55 @@
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  MAVEN_OPTS: >-
+    -Dhttps.protocols=TLSv1.2
+    -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository
+    -Dorg.slf4j.simpleLogger.showDateTime=true
+    -Djava.awt.headless=true
+  MAVEN_CLI_OPTS: >-
+    --batch-mode
+    --errors
+    --fail-at-end
+    --show-version
+    --no-transfer-progress
+    -DinstallAtEnd=true
+    -DdeployAtEnd=true
+
+# Use a Docker image with Maven and OpenJDK 17
+image: maven:3-openjdk-17
+
+cache:
+  paths:
+    - .m2/repository
+
+.build:
+  stage: build
+  script:
+    - mvn $MAVEN_CLI_OPTS clean compile
+
+.test:
+  stage: test
+  script:
+    - mvn $MAVEN_CLI_OPTS test
+
+.deploy:
+  stage: deploy
+  script:
+    - if [ ! -f ci_settings.xml ]; then
+      echo "CI settings missing! If deploying to GitLab Maven Repository, please see https://docs.gitlab.com/ee/user/packages/maven_repository/#create-maven-packages-with-gitlab-cicd for instructions.";
+      fi
+    - mvn $MAVEN_CLI_OPTS deploy --settings ci_settings.xml
+  only:
+    - master
+
+build_job:
+  extends: .build
+
+test_job:
+  extends: .test
+
+deploy_job:
+  extends: .deploy
