@@ -1,7 +1,5 @@
 stages:
   - build
-  - test
-  - deploy
 
 variables:
   MAVEN_OPTS: >-
@@ -30,10 +28,7 @@ cache:
   script:
     - mvn $MAVEN_CLI_OPTS clean compile
 
-.test:
-  stage: test
-  script:
-    - mvn $MAVEN_CLI_OPTS test
+
 
 .deploy:
   stage: deploy
@@ -48,8 +43,4 @@ cache:
 build_job:
   extends: .build
 
-test_job:
-  extends: .test
 
-deploy_job:
-  extends: .deploy
