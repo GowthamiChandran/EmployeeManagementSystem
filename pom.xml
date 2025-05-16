@@ -116,4 +116,12 @@
 		</dependencies>
 	</dependencyManagement>
 
+	<distributionManagement>
+		<repository>
+			<id>gitlab-maven</id>
+			<url>https://gitlab.com/api/v4/projects/69897663/packages/maven</url>
+		</repository>
+	</distributionManagement>
+
+
 </project>
