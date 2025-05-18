@@ -63,7 +63,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeDto updatedEmployee(Long empId, EmployeeDto updatedEmployee) {
-        Employee employee = empRepo.findById(empId).orElseThrow(()->new ResourceNotFound("Resource Not Found for this Id"+empId));
+        Employee employee = empRepo.findById(empId).orElseThrow(()->new ResourceNotFound("Resource Not Available  For this Id"+empId));
         employee.setEmail(updatedEmployee.getEmail());
         employee.setFirstName(updatedEmployee.getFirstName());
         employee.setLastName(updatedEmployee.getLastName());
